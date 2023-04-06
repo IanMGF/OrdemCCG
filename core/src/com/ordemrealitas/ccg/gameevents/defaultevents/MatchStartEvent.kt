@@ -6,6 +6,7 @@ import com.ordemrealitas.ccg.match.Player
 
 class MatchStartEvent(private val player1: Player, private val player2: Player, match: Match) : DefaultEvent(match){
     override fun onExecute() {
+        match.stateChangeSemaphore.acquire()
         player1.deck.shuffle()
         player2.deck.shuffle()
 
@@ -14,5 +15,6 @@ class MatchStartEvent(private val player1: Player, private val player2: Player, 
                 callEvent(PlayerDrawEvent(match, player1).apply { cause = this@MatchStartEvent })
                 callEvent(PlayerDrawEvent(match, player2).apply { cause = this@MatchStartEvent })
             }
+        match.stateChangeSemaphore.release()
     }
 }

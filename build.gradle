@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlinVersion = '1.5.31'
+    ext.kotlinVersion = '1.8.10'
     ext.gdxVersion = '1.11.0'
 
     repositories {

@@ -14,7 +14,7 @@ interface Player: EventCause {
     var health: Int
 
     val totalPower: Int
-        get() = board.sumBy { cardEntity -> cardEntity.power }
+        get() = board.sumOf { cardEntity -> cardEntity.power }
 
     val playedCards: List<CardEntity>
 

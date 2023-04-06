@@ -10,6 +10,7 @@ import com.ordemrealitas.ccg.gameevents.eventcauses.EventCause
 import com.ordemrealitas.ccg.gameevents.eventcauses.EventCauseType
 import com.ordemrealitas.ccg.graphical.GraphicalPlayer
 import com.ordemrealitas.ccg.mock.MockPlayer
+import java.util.concurrent.Semaphore
 import java.util.function.BiConsumer
 import kotlin.math.abs
 
@@ -20,8 +21,10 @@ class Match(private val player1: Player, private val player2: Player): EventCaus
     var round: Int = 0
         private set
 
+    val stateChangeSemaphore: Semaphore = Semaphore(1)
+
     var isGameOver: Boolean = false
-        get() = field || (round >= 10)
+        get() = field || (round >= 20)
 
     var strongestPlayer: Player = player1
         private set
@@ -276,12 +279,16 @@ fun registerCards(match: Match){
     }})
 
     val cards = listOf(kaiser, thiago, agatha, elizabeth, mia, enpap, verissimo, cristopher, henri)
+    match.stateChangeSemaphore.acquire()
     Match.registeredCards = cards
+    match.stateChangeSemaphore.release()
 }
 
 fun initDecks(match: Match){
+    match.stateChangeSemaphore.acquire()
     match.strongestPlayer.deck.addAll(Match.registeredCards!!.map { CardEntity(it, match.strongestPlayer)})
     match.weakestPlayer  .deck.addAll(Match.registeredCards!!.map { CardEntity(it, match.weakestPlayer)  })
+    match.stateChangeSemaphore.release()
 }
 
 fun main(){
