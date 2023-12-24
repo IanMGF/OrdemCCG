@@ -4,7 +4,6 @@ import com.ordemrealitas.ccg.match.Match
 
 class RoundStartEvent(match: Match) : DefaultEvent(match){
     override fun onExecute() {
-        match.stateChangeSemaphore.acquire()
         match.eventHandler.callEvent(PlayerDrawEvent(match, match.strongestPlayer))
         match.eventHandler.callEvent(PlayerDrawEvent(match, match.weakestPlayer  ))
 
@@ -13,6 +12,5 @@ class RoundStartEvent(match: Match) : DefaultEvent(match){
 
         match.strongestPlayer.energy++
         match.weakestPlayer  .energy++
-        match.stateChangeSemaphore.release()
     }
 }

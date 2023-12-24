@@ -6,10 +6,11 @@ import java.util.ArrayList
 import java.util.concurrent.Semaphore
 
 class GraphicalPlayer : Player {
-    companion object{
+    companion object {
         val semaphore = Semaphore(0)
         var asyncPlayedCards: List<CardEntity> = emptyList()
     }
+
     override var deck: ArrayList<CardEntity> = ArrayList()
     override var hand: ArrayList<CardEntity> = ArrayList()
     override var board: ArrayList<CardEntity> = ArrayList()
@@ -18,7 +19,7 @@ class GraphicalPlayer : Player {
     override var health: Int = 100
 
     override val playedCards: List<CardEntity>
-        get(){
+        get() {
             semaphore.acquire()
             return asyncPlayedCards
         }

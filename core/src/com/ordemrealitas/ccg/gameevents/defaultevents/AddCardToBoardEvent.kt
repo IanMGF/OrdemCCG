@@ -8,7 +8,8 @@ class AddCardToBoardEvent(val cardEntity: CardEntity, match: Match, val player: 
     override fun onExecute(){
         match.stateChangeSemaphore.acquire()
         cardEntity.location = CardEntity.Location.BOARD
-        match.eventHandler.callEvent(CardRevealEvent(cardEntity, match).apply{ cause = this@AddCardToBoardEvent })
         match.stateChangeSemaphore.release()
+
+        match.eventHandler.callEvent(CardRevealEvent(cardEntity, match).apply{ cause = this@AddCardToBoardEvent })
     }
 }

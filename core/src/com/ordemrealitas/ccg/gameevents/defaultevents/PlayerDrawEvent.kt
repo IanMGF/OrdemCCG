@@ -6,8 +6,9 @@ import com.ordemrealitas.ccg.match.Player
 
 class PlayerDrawEvent(match: Match, private val player: Player, private var cardEntity: CardEntity? = null): DefaultEvent(match) {
     override fun onExecute() {
-        match.stateChangeSemaphore.acquire()
         cardEntity = cardEntity?: player.deck.getOrNull(0)
+
+        match.stateChangeSemaphore.acquire()
         cardEntity?.location = CardEntity.Location.HAND
         match.stateChangeSemaphore.release()
     }
