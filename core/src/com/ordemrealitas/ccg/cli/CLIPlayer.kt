@@ -18,7 +18,8 @@ class CLIPlayer: Player {
 
     private fun cliPlayerTurn(): List<CardEntity> {
         print("Sua mesa: ")
-        println(board.map { "${it.card.name}[${it.cost}|${it.power}]${
+        println(board.map {
+            "${it.card.name}[${it.cost}|${it.power}]${
             if (it.card.hasEffect) "*"
             else ""
         }" })
@@ -29,7 +30,7 @@ class CLIPlayer: Player {
         }" })
         println(" HP: $health | Energia: $energy")
         print("[Jogar / Ler / Pular]: ")
-        val input = readLine() ?: return emptyList()
+        val input = readlnOrNull() ?: return emptyList()
         return if(input.startsWith("Jogar"))
             input.removePrefix("Jogar ").split(' ').map { hand[it.toInt()] }
         else if(input.startsWith("Ler ")) {
